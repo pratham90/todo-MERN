@@ -1,10 +1,10 @@
 import "./App.css";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
-import Navbar from "./components/navbar";
-import { useTodos } from "./components/functions/appMethods";
+import Navbar from "../components/navbar";
+import { useTodos } from "../components/functions/appMethods";
 import { ToastContainer } from "react-toastify";
-import { getItemsFromServer } from "./components/itemsServices";
+import { getItemsFromServer } from "../components/itemsServices";
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "react-toastify/dist/ReactToastify.css";
