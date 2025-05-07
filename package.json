@@ -1,0 +1,17 @@
+{
+  "name": "todo-list-app",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "todolist-frontend/client",
+    "todolist-backend/server"
+  ],
+  "scripts": {
+    "build": "cd todolist-frontend/client && npm run build",
+    "start": "cd todolist-backend/server && npm start",
+    "dev": "concurrently \"cd todolist-frontend/client && npm run dev\" \"cd todolist-backend/server && npm run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  }
+}

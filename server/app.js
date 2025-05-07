@@ -1,39 +1,60 @@
 const express = require('express')
 const {default:mongoose} = require('mongoose');
-const DB_path = "mongodb+srv://root:root@pratham.bxzwh2p.mongodb.net/todo-list?retryWrites=true&w=majority&appName=pratham"
+require('dotenv').config();
+
+const DB_path = process.env.MONGODB_URI
 const cors = require('cors')
 
 // local imports
 const itemsRouter = require('./routes/itemsRouter');
 
-
-
 // using core
 const app = express();
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"));
 app.use(express.json())
-app.use(cors())
-
+app.use(cors({
+    origin: process.env.NODE_ENV === 'production' 
+        ? process.env.FRONTEND_URL 
+        : 'http://localhost:5173',
+    credentials: true
+}))
 
 // using routes
-app.use('/api/todo',itemsRouter)
- 
+app.use('/api/todo', itemsRouter)
 
-// error
-app.use((req,res,next)=>{
-    res.status(404).json({message:'page not found'});
-}) 
+// error handling
+app.use((req, res, next) => {
+    res.status(404).json({message: 'page not found'});
+})
 
-
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({message: 'Something went wrong!'});
+})
 
 // running server
 const PORT = process.env.PORT || 3000;
-mongoose.connect(DB_path).then(()=>{
-console.log('connected to mongoose')
-    app.listen(PORT,()=>{
-    console.log(`server running on http://localhost:${PORT}`)
-    })
-}).catch((err)=>{
-    console.log('erroe in connect',err)
-})
+
+// MongoDB connection with retry logic
+const connectDB = async () => {
+    try {
+        await mongoose.connect(DB_path);
+        console.log('Connected to MongoDB');
+    } catch (err) {
+        console.error('MongoDB connection error:', err);
+        // Retry connection after 5 seconds
+        setTimeout(connectDB, 5000);
+    }
+};
+
+if (process.env.NODE_ENV !== 'production') {
+    connectDB().then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}`);
+        });
+    });
+}
+
+// Export for Vercel
+module.exports = app;
