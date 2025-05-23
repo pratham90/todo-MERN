@@ -1,6 +1,7 @@
 const express = require('express')
 const {default:mongoose} = require('mongoose');
 const dotenv = require('dotenv')
+const path = require('path')
 
 dotenv.config()
 
@@ -16,7 +17,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"));
 app.use(express.json())
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.NODE_ENV === 'production'
+      ? process.env.CLIENT_URL
+      : 'http://localhost:5173',
     credentials: true
 }))
 
