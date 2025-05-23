@@ -1,17 +1,22 @@
 {
-  "name": "todo-list-app",
+  "name": "todolist-backend",
   "version": "1.0.0",
-  "private": true,
-  "workspaces": [
-    "todolist-frontend/client",
-    "todolist-backend/server"
-  ],
+  "main": "index.js",
   "scripts": {
-    "build": "cd todolist-frontend/client && npm run build",
-    "start": "cd todolist-backend/server && npm start",
-    "dev": "concurrently \"cd todolist-frontend/client && npm run dev\" \"cd todolist-backend/server && npm run dev\""
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install",
+    "start": "cd server && npm start"
   },
-  "devDependencies": {
-    "concurrently": "^8.0.0"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pratham90/todo-MERN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pratham90/todo-MERN/issues"
+  },
+  "homepage": "https://github.com/pratham90/todo-MERN#readme",
+  "description": ""
 }

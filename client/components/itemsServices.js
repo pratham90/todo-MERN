@@ -1,6 +1,6 @@
 export const addItemToServer = async (task, date) => {
     try {
-        const response = await fetch("http://localhost:3000/api/todo/createitem", {
+        const response = await fetch( import.meta.env.MODE ==='development' ? "http://localhost:3000/api/todo/createitem":'/api/todo/createitem', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -18,14 +18,14 @@ export const addItemToServer = async (task, date) => {
 }
 
 export const getItemsFromServer = async () =>{
-    const response = await fetch("http://localhost:3000/api/todo/getitem");
+    const response = await fetch(import.meta.env.MODE ==='development' ? "http://localhost:3000/api/todo/getitem":'/api/todo/getitem');
 
     const items = await response.json();
     // console.log("raw items", items);
     return items.items.map((item) => mapServerItemToLocalItem(item));
 }
 export const deleteItemFromServer = async (id)=>{
-    const response = await fetch(`http://localhost:3000/api/todo/delitem/${id}`,{
+    const response = await fetch( import.meta.env.MODE ==='development' ? `http://localhost:3000/api/todo/delitem/${id}`:`/api/todo/delitem/${id}`,{
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export const deleteItemFromServer = async (id)=>{
 }
 
 export const updateItemFromServer = async (id ,task,date)=>{
-    const response = await fetch(`http://localhost:3000/api/todo/updateitem/${id}`,{
+    const response = await fetch(import.meta.env.MODE ==='development' ? `http://localhost:3000/api/todo/updateitem/${id}`:`/api/todo/updateitem/${id}`,{
         method:"PUT",
         headers:{
             "Content-Type":"application/json",
@@ -50,7 +50,7 @@ export const updateItemFromServer = async (id ,task,date)=>{
 
 }
 export const checkItemFromServer = async (id) => {
-    const response = await fetch(`http://localhost:3000/api/todo/checkitem/${id}`, {
+    const response = await fetch(import.meta.env.MODE ==='development' ? `http://localhost:3000/api/todo/checkitem/${id}`:`/api/todo/checkitem/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

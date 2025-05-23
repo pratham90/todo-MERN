@@ -1,6 +1,8 @@
 const express = require('express')
 const {default:mongoose} = require('mongoose');
-require('dotenv').config();
+const dotenv = require('dotenv')
+
+dotenv.config()
 
 const DB_path = process.env.MONGODB_URI
 const cors = require('cors')
@@ -14,9 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"));
 app.use(express.json())
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? process.env.FRONTEND_URL 
-        : 'http://localhost:5173',
+    origin: 'http://localhost:5173',
     credentials: true
 }))
 
@@ -47,14 +47,18 @@ const connectDB = async () => {
         setTimeout(connectDB, 5000);
     }
 };
+if(process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../client/dist")))
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "../client", "dist", "index.html"))
+    })
+}
 
-if (process.env.NODE_ENV !== 'production') {
+
     connectDB().then(() => {
         app.listen(PORT, () => {
             console.log(`Server running on http://localhost:${PORT}`);
         });
     });
-}
 
-// Export for Vercel
-module.exports = app;
+

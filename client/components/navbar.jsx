@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navbar = () => {
   return (
-    <div className="w-full h-15 bg-gradient-to-r from-green-400 to-blue-500 flex justify-center items-center font-bold text-3xl text-white">
+    <div className="w-full h-15 bg-blue-500 flex justify-center items-center font-bold text-3xl text-white">
       <h1>Your To-Do-list</h1>
     </div>
   );
